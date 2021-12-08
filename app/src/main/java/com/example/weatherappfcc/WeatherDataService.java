@@ -25,7 +25,12 @@ public class WeatherDataService {
         this.context = context;
     }
 
-    public String getCityId(String cityName){
+    public interface VolleyResponseListener{
+        void onError(String message);
+        void onResponse(String cityId);
+    }
+
+    public void getCityId(String cityName, VolleyResponseListener volleyResponseListener){
 
 
         String url = QUERY_FOR_CITY_ID +cityName;
@@ -42,19 +47,21 @@ public class WeatherDataService {
                     e.printStackTrace();
                 }
                 // this worked but didnt return city Id
-                Toast.makeText( context,"city Id =" + cityId,Toast.LENGTH_SHORT ).show();
+              //  Toast.makeText( context,"city Id =" + cityId,Toast.LENGTH_SHORT ).show();
+                volleyResponseListener.onResponse( cityId );
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText( context,"Something Wrong",Toast.LENGTH_SHORT ).show();
+               // Toast.makeText( context,"Something Wrong",Toast.LENGTH_SHORT ).show();
+                volleyResponseListener.onError( "Something wrong" );
             }
         } );
 
         MySingleton.getInstance( context ).addToRequestQueue( request );
 
         // Id was not returned!
-        return cityId;
+
 
     }
 

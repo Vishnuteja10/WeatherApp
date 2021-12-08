@@ -59,9 +59,21 @@ public class MainActivity extends AppCompatActivity {
                 // this didnt work
                 WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
 
-                String cityId = weatherDataService.getCityId( et_dataInput.getText().toString() );
+                 weatherDataService.getCityId( et_dataInput.getText().toString(), new WeatherDataService.VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText( MainActivity.this,message,Toast.LENGTH_SHORT ).show();
 
-                Toast.makeText( MainActivity.this,"Returned Id of"+cityId,Toast.LENGTH_SHORT ).show();
+                    }
+
+                    @Override
+                    public void onResponse(String cityId) {
+                        Toast.makeText( MainActivity.this,"Returned Id of"+cityId,Toast.LENGTH_SHORT ).show();
+
+                    }
+                } );
+
+               // Toast.makeText( MainActivity.this,"Returned Id of"+cityId,Toast.LENGTH_SHORT ).show();
 
             }
         } );
