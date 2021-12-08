@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn_cityId,btn_getWeatherById,btn_getWeatherByName;
     EditText et_dataInput;
     ListView lv_weatherReport;
+    WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
 
 
     @Override
@@ -46,8 +47,23 @@ public class MainActivity extends AppCompatActivity {
 
         // click listeners for each button
 
-        btn_getWeatherById.setOnClickListener( v -> {
-            Toast.makeText( MainActivity.this, "its get weather by id", Toast.LENGTH_SHORT ).show();
+        btn_getWeatherById.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                weatherDataService.getCityForecastById( et_dataInput.getText().toString(), new WeatherDataService.ForecastByIDResponse() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText( MainActivity.this,"Error",Toast.LENGTH_SHORT ).show();
+                    }
+
+                    @Override
+                    public void onResponse(WeatherReportModel weatherReportModel) {
+                     Toast.makeText( MainActivity.this,weatherReportModel.toString(),Toast.LENGTH_SHORT ).show();
+                    }
+                } );
+
+            }
         } );
 
         btn_getWeatherByName.setOnClickListener( v -> Toast.makeText( MainActivity.this,"its get weather by Name",Toast.LENGTH_SHORT ).show() );
@@ -57,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // this didnt work
-                WeatherDataService weatherDataService = new WeatherDataService(MainActivity.this);
 
                  weatherDataService.getCityId( et_dataInput.getText().toString(), new WeatherDataService.VolleyResponseListener() {
                     @Override
@@ -72,8 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 } );
-
-               // Toast.makeText( MainActivity.this,"Returned Id of"+cityId,Toast.LENGTH_SHORT ).show();
 
             }
         } );
