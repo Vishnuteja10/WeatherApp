@@ -2,6 +2,7 @@ package com.example.weatherappfcc;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -22,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.CollationElementIterator;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,15 +60,43 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onResponse(WeatherReportModel weatherReportModel) {
-                     Toast.makeText( MainActivity.this,weatherReportModel.toString(),Toast.LENGTH_SHORT ).show();
+                    public void onResponse(List<WeatherReportModel> weatherReportModels) {
+
+                        //put entire list under listview control
+
+                        ArrayAdapter arrayAdapter = new ArrayAdapter( MainActivity.this, android.R.layout.simple_list_item_1 ,weatherReportModels);
+                        lv_weatherReport.setAdapter( arrayAdapter );
+
+
                     }
                 } );
 
             }
         } );
 
-        btn_getWeatherByName.setOnClickListener( v -> Toast.makeText( MainActivity.this,"its get weather by Name",Toast.LENGTH_SHORT ).show() );
+        btn_getWeatherByName.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                weatherDataService.getCityForecastByName( et_dataInput.getText().toString(), new WeatherDataService.GetCityForecastByNameCallback() {
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText( MainActivity.this,"Error",Toast.LENGTH_SHORT ).show();
+                    }
+
+                    @Override
+                    public void onResponse(List<WeatherReportModel> weatherReportModels) {
+
+                        //put entire list under listview control
+
+                        ArrayAdapter arrayAdapter = new ArrayAdapter( MainActivity.this, android.R.layout.simple_list_item_1 ,weatherReportModels);
+                        lv_weatherReport.setAdapter( arrayAdapter );
+
+
+                    }
+                } );
+            }
+        } );
 
         btn_cityId.setOnClickListener( new View.OnClickListener() {
             @Override
