@@ -27,3 +27,8 @@ MetaWeather API : https://www.metaweather.com/api/
 
 ### You can enter the city ID then click WEATHERBYID button to get weather forecast using cityID.
 ![w4](https://user-images.githubusercontent.com/66770891/150495440-11dae4e8-989c-4961-8e0d-70a33c8fc5b9.jpeg)
+
+
+## Run Locally
+ 
+ Use this link to run the app on your device : https://drive.google.com/file/d/1Xuh8r1lnjy_dazrlbgcIUC-xBrvKI_gK/view?usp=drivesdk
